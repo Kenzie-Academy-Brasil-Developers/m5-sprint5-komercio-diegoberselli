@@ -34,7 +34,7 @@ class LoginView(APIView):
 
 class ListAccountView(generics.ListAPIView):
     queryset = Account.objects.all()
-    serializer_class = AccountSerializer
+    serializer_class = AccountSerializer()
     
     def get_queryset(self):
         num_accounts = self.kwargs["num"]

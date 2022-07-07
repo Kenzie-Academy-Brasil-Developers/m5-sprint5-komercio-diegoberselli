@@ -1,6 +1,3 @@
-from asyncore import write
-from statistics import mode
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 

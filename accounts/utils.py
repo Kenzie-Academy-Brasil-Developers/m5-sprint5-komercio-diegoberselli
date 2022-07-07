@@ -14,7 +14,6 @@ class CustonAccountManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             is_seller=is_seller,
-            is_staff=is_seller,
             is_superuser=is_superuser,
             **extra_fields
         )
