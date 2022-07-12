@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from products.permissions import IsSellerOrReadOnly
+
 from .mixins import SerializerByMethodMixin
 from .models import Product
 from .serializers import CreateProductSerializer, ListProductSerializer
@@ -23,6 +25,7 @@ class ListCreateProductView(SerializerByMethodMixin, generics.ListCreateAPIView)
         
 class ListUpdateProductView(SerializerByMethodMixin, generics.RetrieveUpdateAPIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsSellerOrReadOnly, IsAuthenticatedOrReadOnly]
     
     queryset = Product.objects.all()
     serializer_map = {

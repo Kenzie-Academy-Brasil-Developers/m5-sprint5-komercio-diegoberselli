@@ -1,11 +1,14 @@
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from accounts.models import Account
-from accounts.serializers import AccountSerializer, LoginSerializer
+from accounts.permissions import IsOwnerPermission
+from accounts.serializers import (AccountSerializer, LoginSerializer,
+                                  UpdateAccountSerializer, UpdateIsActiveSerializer)
 
 
 class ListCreateAccountView(generics.ListCreateAPIView):
@@ -34,8 +37,19 @@ class LoginView(APIView):
 
 class ListAccountView(generics.ListAPIView):
     queryset = Account.objects.all()
-    serializer_class = AccountSerializer()
+    serializer_class = AccountSerializer
     
     def get_queryset(self):
         num_accounts = self.kwargs["num"]
         return self.queryset.order_by("-data_joined")[0:num_accounts] 
+    
+class UpdateAccountView(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsOwnerPermission]
+    
+    queryset = Account.objects.all()
+    serializer_class = UpdateAccountSerializer
+
+class UpdateIsActiveView(generics.UpdateAPIView):
+    queryset = Account.objects.all()
+    serializer_class = UpdateIsActiveSerializer
