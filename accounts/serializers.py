@@ -1,4 +1,3 @@
-from pyexpat import model
 from rest_framework import serializers
 
 from .models import Account
@@ -21,8 +20,7 @@ class AccountSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
 
         return Account.objects.create_user(**validated_data)
-        
-     
+            
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
